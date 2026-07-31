@@ -14,6 +14,7 @@ headers = {
 }
 
 def build_m3u():
+    m3u_lines = ["#EXTM3U"]
     try:
         res = requests.get(PLUTO_BOOT_URL, headers=headers, timeout=15)
         if res.status_code == 200:
@@ -21,14 +22,12 @@ def build_m3u():
             token = data.get('sessionToken', '')
             channels = data.get('channels', [])
             
-            m3u_lines = ["#EXTM3U"]
             for ch in channels:
                 ch_id = ch.get('id')
                 name = ch.get('name', 'Pluto Channel')
                 logo = ch.get('colorLogoPNG', {}).get('path', '')
                 group = ch.get('category', 'Pluto TV')
                 
-                # Stream link langsung menggunakan Pluto Stitcher dengan JWT Token terpasang
                 stream_link = (
                     f"https://cfd-v4-service-channel-stitcher-use1-1.prd.pluto.tv/v2/stitch/hls/channel/{ch_id}/master.m3u8"
                     f"?appName=web&appVersion=9.22.0&clientDeviceType=0&deviceMake=chrome&deviceModel=web&deviceType=web"
@@ -37,14 +36,17 @@ def build_m3u():
                 
                 m3u_lines.append(f'#EXTINF:-1 tvg-id="{ch_id}" tvg-name="{name}" tvg-logo="{logo}" group-title="{group}",{name}')
                 m3u_lines.append(stream_link)
-                
-            playlist_content = "\n".join(m3u_lines)
-            
-            with open("playlist.m3u", "w", encoding="utf-8") as f:
-                f.write(playlist_content)
-            print(f"Berhasil membuat playlist.m3u dengan {len(channels)} saluran!")
+            print(f"Berhasil memuat {len(channels)} saluran!")
+        else:
+            print(f"Response error dari Pluto TV: {res.status_code}")
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"Error fetching Pluto: {e}")
+
+    # Wajib menuliskan file playlist.m3u apapun yang terjadi
+    playlist_content = "\n".join(m3u_lines)
+    with open("playlist.m3u", "w", encoding="utf-8") as f:
+        f.write(playlist_content)
+    print("File playlist.m3u berhasil ditulis.")
 
 if __name__ == "__main__":
     build_m3u()
