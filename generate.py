@@ -13,7 +13,7 @@ headers = {
 }
 
 def build_m3u():
-    m3u_lines = ["#EXTM3U url-tvg=\"http://iptv-epg.com/epg.xml\""]
+    m3u_lines = ["#EXTM3U"]
     try:
         res = requests.get(PLUTO_BOOT_URL, headers=headers, timeout=15)
         if res.status_code == 200:
@@ -39,8 +39,8 @@ def build_m3u():
     except Exception as e:
         print(f"Error: {e}")
 
-    # Simpan file
-    with open("playlist.m3u", "w", encoding="utf-8") as f:
+    # SIMPAN SEBAGAI .txt
+    with open("playlist.txt", "w", encoding="utf-8") as f:
         f.write("\n".join(m3u_lines))
 
 if __name__ == "__main__":
