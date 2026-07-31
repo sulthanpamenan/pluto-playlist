@@ -1,5 +1,4 @@
 import requests
-import json
 
 PLUTO_BOOT_URL = (
     "https://boot.pluto.tv/v4/start"
@@ -14,7 +13,7 @@ headers = {
 }
 
 def build_m3u():
-    m3u_lines = ["#EXTM3U"]
+    m3u_lines = ["#EXTM3U url-tvg=\"http://iptv-epg.com/epg.xml\""]
     try:
         res = requests.get(PLUTO_BOOT_URL, headers=headers, timeout=15)
         if res.status_code == 200:
@@ -37,16 +36,12 @@ def build_m3u():
                 m3u_lines.append(f'#EXTINF:-1 tvg-id="{ch_id}" tvg-name="{name}" tvg-logo="{logo}" group-title="{group}",{name}')
                 m3u_lines.append(stream_link)
             print(f"Berhasil memuat {len(channels)} saluran!")
-        else:
-            print(f"Response error dari Pluto TV: {res.status_code}")
     except Exception as e:
-        print(f"Error fetching Pluto: {e}")
+        print(f"Error: {e}")
 
-    # Wajib menuliskan file playlist.m3u apapun yang terjadi
-    playlist_content = "\n".join(m3u_lines)
+    # Simpan file
     with open("playlist.m3u", "w", encoding="utf-8") as f:
-        f.write(playlist_content)
-    print("File playlist.m3u berhasil ditulis.")
+        f.write("\n".join(m3u_lines))
 
 if __name__ == "__main__":
     build_m3u()
