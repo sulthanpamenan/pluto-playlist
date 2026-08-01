@@ -7,38 +7,17 @@ headers = {
     'CF-IPCountry': 'US'
 }
 
-def get_pluto_data():
-    boot_url = (
-        "https://boot.pluto.tv/v4/start"
-        "?appName=web&appVersion=9.22.0"
-        "&clientDeviceType=0&deviceMake=chrome&deviceModel=web&deviceType=web"
-        "&marketingRegion=US&serverSideAds=false"
-    )
-    token = ""
+def build_m3u():
     channels = []
     
+    # Ambil daftar channel langsung dari API v2
     try:
-        res = requests.get(boot_url, headers=headers, timeout=15)
+        res = requests.get("https://api.pluto.tv/v2/channels", headers=headers, timeout=15)
         if res.status_code == 200:
-            data = res.json()
-            token = data.get('sessionToken', '')
-            channels = data.get('channels', [])
+            channels = res.json()
     except Exception as e:
-        print(f"Boot API Error: {e}")
+        print(f"Error: {e}")
 
-    # Fallback jika channels kosong
-    if not channels:
-        try:
-            res_v2 = requests.get("https://api.pluto.tv/v2/channels", headers=headers, timeout=15)
-            if res_v2.status_code == 200:
-                channels = res_v2.json()
-        except Exception as e:
-            print(f"V2 API Error: {e}")
-
-    return token, channels
-
-def build_m3u():
-    token, channels = get_pluto_data()
     m3u_lines = ["#EXTM3U"]
 
     for ch in channels:
@@ -48,6 +27,7 @@ def build_m3u():
 
         name = ch.get('name', 'Pluto Channel')
         
+        # Penanganan Logo
         logo = ''
         if isinstance(ch.get('colorLogoPNG'), dict):
             logo = ch.get('colorLogoPNG', {}).get('path', '')
@@ -56,23 +36,8 @@ def build_m3u():
 
         group = ch.get('category', 'Pluto TV')
 
-        # Menyusun link STREAM TANPA SPASI dan dengan JWT Token
-        if token:
-            stream_link = (
-                f"https://cfd-v4-service-channel-stitcher-use1-1.prd.pluto.tv/v2/stitch/hls/channel/{ch_id}/master.m3u8"
-                f"?appName=web&appVersion=9.22.0&clientDeviceType=0&deviceMake=chrome&deviceModel=web&deviceType=web"
-                f"&serverSideAds=false&jwt={token}&masterJWTPassthrough=true"
-            )
-        else:
-            # Format alternatif tanpa JWT jika token gagal didapat
-            stream_link = (
-                f"https://cfd-v4-service-channel-stitcher-use1-1.prd.pluto.tv/v2/stitch/hls/channel/{ch_id}/master.m3u8"
-                f"?appName=web&appVersion=9.22.0&clientDeviceType=0&deviceMake=chrome&deviceModel=web&deviceType=web"
-                f"&serverSideAds=false&masterJWTPassthrough=true"
-            )
-
-        # Bersihkan spasi yang tidak disengaja
-        stream_link = stream_link.strip().replace(" ", "")
+        # Link Stream Murni Bebas JWT (Ringkas, Pendek, dan Tidak Akan Terpotong/Spasi)
+        stream_link = f"https://service-stitcher.clusters.pluto.tv/v1/stitch/embed/hls/channel/{ch_id}/master.m3u8?deviceType=web"
 
         m3u_lines.append(f'#EXTINF:-1 tvg-id="{ch_id}" tvg-name="{name}" tvg-logo="{logo}" group-title="{group}",{name}')
         m3u_lines.append(stream_link)
@@ -82,7 +47,7 @@ def build_m3u():
     with open("playlist.txt", "w", encoding="utf-8") as f:
         f.write(playlist_content)
         
-    print(f"Berhasil membuat playlist.txt bersih (Total: {len(channels)} saluran)!")
+    print(f"Berhasil membuat playlist (Total: {len(channels)} saluran)!")
 
 if __name__ == "__main__":
     build_m3u()
