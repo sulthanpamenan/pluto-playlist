@@ -85,10 +85,6 @@ def build_m3u():
     with open("playlist.txt", "w", encoding="utf-8") as f:
         f.write(m3u_content)
     
-    # Menyimpan juga ke playlist.m3u
-    with open("playlist.m3u", "w", encoding="utf-8") as f:
-        f.write(m3u_content)
-                
     print(f"[SUCCESS] Berhasil membuat playlist.txt dengan {len(channels)} saluran!")
 
 if __name__ == "__main__":
