@@ -37,3 +37,23 @@ Use either of the following URLs in your preferred IPTV app (OTT Navigator, Tivi
 4. Enter the URL:
    ```text
    [https://sulthanpamenan.github.io/pluto-playlist/playlist.txt](https://sulthanpamenan.github.io/pluto-playlist/playlist.txt)
+
+---
+
+## ☕ Dukung Pembuat Program
+
+Jika proyek **pluto-playlist** ini bermanfaat bagi Anda, Anda dapat memberikan apresiasi / dukungan melalui Saweria:
+
+<p align="center">
+  <a href="https://saweria.co/widgets/qr?streamKey=cbedd743c554f623eac1630d80ccbcdc">
+    <img src="https://saweria.co/widgets/qr?streamKey=cbedd743c554f623eac1630d80ccbcdc" width="220" alt="QRIS Donasi Saweria">
+  </a>
+  <br>
+  <sub><b>Scan QRIS di atas menggunakan GoPay, DANA, OVO, ShopeePay, atau m-Banking</b></sub>
+</p>
+
+<p align="center">
+  <a href="https://saweria.co/widgets/qr?streamKey=cbedd743c554f623eac1630d80ccbcdc">
+    <img src="https://img.shields.io/badge/Saweria-Dukung_Proyek-orange?style=for-the-badge&logo=coffee" alt="Dukung via Saweria">
+  </a>
+</p>
