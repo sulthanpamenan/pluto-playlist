@@ -3,37 +3,37 @@
 [![Auto Update Playlist](https://github.com/sulthanpamenan/pluto-playlist/actions/workflows/auto_update.yml/badge.svg)](https://github.com/sulthanpamenan/pluto-playlist/actions/workflows/auto_update.yml)
 [![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Active-success?logo=github)](https://sulthanpamenan.github.io/pluto-playlist/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Status](https://img.shields.io/badge/Channels-400%2B%20Live-blue)](#-fitur-utama)
+[![Status](https://img.shields.io/badge/Channels-400%2B%20Live-blue)](#-key-features)
 
-Layanan pembuat daftar putar (*playlist*) M3U gratis untuk siaran langsung **Pluto TV**. Repository ini menggunakan **GitHub Actions** untuk mengekstrak token JWT resmi dan memperbarui daftar saluran secara otomatis setiap 3 jam sekali agar dapat langsung diputar di berbagai aplikasi pemutar IPTV tanpa terkendala *geoblock* atau token kedaluwarsa.
+A free, automated M3U playlist generator for **Pluto TV** live channels. This repository uses **GitHub Actions** to extract official JWT tokens and update channel lists every 3 hours, allowing seamless playback on IPTV players without geoblocks or expired tokens.
 
 ---
 
-## 🔗 URL Playlist Siap Pakai
+## 🔗 Ready-to-Use Playlist URLs
 
-Gunakan salah satu URL di bawah ini pada aplikasi IPTV pilihan Anda (OTT Navigator, TiviMate, VLC, dll):
+Use either of the following URLs in your preferred IPTV app (OTT Navigator, TiviMate, VLC, etc.):
 
-| Format | URL Playlist | Keterangan |
+| Format | Playlist URL | Description |
 | :--- | :--- | :--- |
-| **TXT / M3U** *(Disarankan)* | `https://sulthanpamenan.github.io/pluto-playlist/playlist.txt` | Format standar M3U8 dengan parameter pemutar resmi Pluto TV |
-| **M3U File Direct** | `https://sulthanpamenan.github.io/pluto-playlist/playlist.m3u` | Format `.m3u` untuk aplikasi yang mewajibkan ekstensi M3U |
+| **TXT / M3U** *(Recommended)* | `https://sulthanpamenan.github.io/pluto-playlist/playlist.txt` | Standard M3U8 format containing official Pluto TV player parameters |
+| **M3U File Direct** | `https://sulthanpamenan.github.io/pluto-playlist/playlist.m3u` | Direct `.m3u` file format for applications requiring M3U extension |
 
 ---
 
-## ✨ Fitur Utama
+## ✨ Key Features
 
-- **🔄 Auto-Update Latar Belakang (Cloud 24/7):** GitHub Actions memperbarui token JWT resmi Pluto TV secara otomatis setiap **3 jam sekali**.
-- **🌐 Bebas VPN:** Proses generasi playlist dilakukan langsung melalui server GitHub US, sehingga tayangan dapat diakses langsung tanpa perlu menyalakan VPN di perangkat Anda.
-- **⚡ Kompatibilitas Luas:** Mendukung berbagai aplikasi IPTV populer seperti OTT Navigator, TiviMate, IPTV Smarters Pro, VLC Media Player, PotPlayer, dan Perfect Player.
-- **📺 Metadata Lengkap:** Dilengkapi dengan EPG ID (`tvg-id`), Logo Saluran Berwarna (`tvg-logo`), serta Kategori Saluran Lengkap (`group-title`).
+- **🔄 Automated Background Updates (24/7 Cloud):** GitHub Actions automatically fetches fresh Pluto TV JWT tokens every **3 hours**.
+- **🌐 VPN-Free Access:** Playlists are generated via US-based GitHub servers, allowing direct playback on client devices without requiring a VPN.
+- **⚡ Broad Compatibility:** Tested and compatible with popular IPTV apps such as OTT Navigator, TiviMate, IPTV Smarters Pro, VLC Media Player, PotPlayer, and Perfect Player.
+- **📺 Rich Metadata:** Includes EPG IDs (`tvg-id`), color logos (`tvg-logo`), and complete channel categories (`group-title`).
 
 ---
 
-## 🚀 Cara Penggunaan di OTT Navigator
+## 🚀 Setup Guide for OTT Navigator
 
-1. Buka aplikasi **OTT Navigator** di Smart TV, Android TV, atau HP Anda.
-2. Masuk ke menu **Pengaturan** (Settings) $\rightarrow$ **Penyedia** (Providers).
-3. Pilih **Tambahkan Penyedia** (Add Provider) $\rightarrow$ **Playlist M3U**.
-4. Masukkan URL berikut:
+1. Open **OTT Navigator** on your Smart TV, Android TV, or Mobile device.
+2. Go to **Settings** $\rightarrow$ **Providers**.
+3. Select **Add Provider** $\rightarrow$ **M3U Playlist**.
+4. Enter the URL:
    ```text
    [https://sulthanpamenan.github.io/pluto-playlist/playlist.txt](https://sulthanpamenan.github.io/pluto-playlist/playlist.txt)
