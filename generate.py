@@ -10,13 +10,13 @@ headers = {
 def build_m3u():
     channels = []
     
-    # Ambil daftar channel langsung dari API v2
+    # Ambil data channel dari API v2 Pluto TV
     try:
         res = requests.get("https://api.pluto.tv/v2/channels", headers=headers, timeout=15)
         if res.status_code == 200:
             channels = res.json()
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"Error fetching channels: {e}")
 
     m3u_lines = ["#EXTM3U"]
 
@@ -36,8 +36,12 @@ def build_m3u():
 
         group = ch.get('category', 'Pluto TV')
 
-        # Link Stream Murni Bebas JWT (Ringkas, Pendek, dan Tidak Akan Terpotong/Spasi)
-        stream_link = f"https://service-stitcher.clusters.pluto.tv/v1/stitch/embed/hls/channel/{ch_id}/master.m3u8?deviceType=web"
+        # Link Stream M3U8 dengan Parameter Lengkap Bebas HTTP 400 Error
+        stream_link = (
+            f"https://cfd-v4-service-channel-stitcher-use1-1.prd.pluto.tv/v2/stitch/hls/channel/{ch_id}/master.m3u8"
+            f"?appName=web&appVersion=9.22.0&clientDeviceType=0&deviceMake=chrome&deviceModel=web"
+            f"&deviceType=web&deviceVersion=123.0.0&includeExtendedEvents=false&serverSideAds=false"
+        )
 
         m3u_lines.append(f'#EXTINF:-1 tvg-id="{ch_id}" tvg-name="{name}" tvg-logo="{logo}" group-title="{group}",{name}')
         m3u_lines.append(stream_link)
