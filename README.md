@@ -40,20 +40,30 @@ Use either of the following URLs in your preferred IPTV app (OTT Navigator, Tivi
 
 ---
 
-## ☕ Dukung Pembuat Program
+## ☕ Support the Developer
 
-Jika proyek **pluto-playlist** ini bermanfaat bagi Anda, Anda dapat memberikan apresiasi / dukungan melalui Saweria:
+If the **pluto-playlist** project is helpful to you, consider supporting the developer to keep this project alive and maintained!
 
-<p align="center">
-  <a href="https://saweria.co/widgets/qr?streamKey=cbedd743c554f623eac1630d80ccbcdc">
-    <img src="https://saweria.co/widgets/qr?streamKey=cbedd743c554f623eac1630d80ccbcdc" width="220" alt="QRIS Donasi Saweria">
-  </a>
-  <br>
-  <sub><b>Scan QRIS di atas menggunakan GoPay, DANA, OVO, ShopeePay, atau m-Banking</b></sub>
-</p>
+<div align="center">
 
-<p align="center">
-  <a href="https://saweria.co/widgets/qr?streamKey=cbedd743c554f623eac1630d80ccbcdc">
-    <img src="https://img.shields.io/badge/Saweria-Dukung_Proyek-orange?style=for-the-badge&logo=coffee" alt="Dukung via Saweria">
-  </a>
-</p>
+### 🇮🇩 Local Donation (QRIS / E-Wallet / Mobile Banking)
+
+[![Saweria QRIS](https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https://saweria.co/sulthanpamenan)](https://saweria.co/sulthanpamenan)
+
+*Scan the QRIS code above using GoPay, DANA, OVO, ShopeePay, LinkAja, or Mobile Banking.*
+
+<br>
+
+<a href="https://saweria.co/sulthanpamenan" target="_blank">
+  <img src="https://img.shields.io/badge/Saweria-Support_Project-orange?style=for-the-badge&logo=coffee" alt="Support via Saweria">
+</a>
+
+---
+
+### 🌐 International Donation
+
+<a href="https://buymeacoffee.com/sulthanpamenan" target="_blank">
+  <img src="https://img.shields.io/badge/Buy_Me_A_Coffee-Donate-yellow?style=for-the-badge&logo=buy-me-a-coffee" alt="Buy Me A Coffee">
+</a>
+
+</div>
