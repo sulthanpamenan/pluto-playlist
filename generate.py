@@ -82,7 +82,7 @@ def build_m3u():
     playlist_content = "\n".join(m3u_lines)
     
     with open("playlist.txt", "w", encoding="utf-8") as f:
-        f.write(m3u_content)
+        f.write(playlist_content)
         
     print(f"[SUCCESS] Berhasil membuat playlist.txt dengan {len(channels)} saluran!")
 
