@@ -49,7 +49,7 @@ If the **pluto-playlist** project is helpful to you, consider supporting the dev
 ### 🇮🇩 Local Donation (QRIS / E-Wallet / Mobile Banking)
 
 <a href="https://saweria.co/sulthanpamenan">
-  <img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https://saweria.co/sulthanpamenan" width="220" alt="Saweria QRIS">
+  <img src="qris.png" width="220" alt="Saweria QRIS">
 </a>
 
 *Scan the QRIS code above using GoPay, DANA, OVO, ShopeePay, LinkAja, or Mobile Banking.*
