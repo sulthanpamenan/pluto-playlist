@@ -3,47 +3,50 @@ import json
 
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
-    'Accept': 'application/json',
-    'X-Forwarded-For': '185.220.101.5',
-    'CF-IPCountry': 'US'
+    'Accept': 'application/json'
 }
 
-def get_pluto_session():
-    boot_url = (
-        "https://boot.pluto.tv/v4/start"
-        "?appName=web&appVersion=9.22.0"
-        "&clientDeviceType=0&deviceMake=chrome&deviceModel=web&deviceType=web"
-        "&marketingRegion=US&serverSideAds=false"
-    )
-    
+def get_jwt_token():
+    """Mengambil JWT Token otentikasi resmi dari Pluto TV secara langsung"""
     token = ""
-    channels = []
     
-    # Mencoba mengambil Token JWT resmi dari API Pluto
+    # Method 1: Tembak endpoint anonim Pluto Token
     try:
-        res = requests.get(boot_url, headers=headers, timeout=15)
+        auth_url = "https://boot.pluto.tv/v4/start?appName=web&appVersion=9.22.0&clientDeviceType=0&deviceMake=chrome&deviceModel=web&deviceType=web"
+        res = requests.get(auth_url, headers=headers, timeout=10)
         if res.status_code == 200:
-            data = res.json()
-            token = data.get('sessionToken', '')
-            channels = data.get('channels', [])
-            print(f"[INFO] Token JWT berhasil didapatkan: {token[:15]}...")
+            token = res.json().get('sessionToken', '')
     except Exception as e:
-        print(f"[ERROR] Gagal ambil boot data: {e}")
+        print(f"Auth Method 1 Error: {e}")
 
-    # Fallback mengambil daftar channel jika API v4 kosong
-    if not channels:
+    # Method 2: Fallback ke session auth v2 jika Method 1 kosong
+    if not token:
         try:
-            res_v2 = requests.get("https://api.pluto.tv/v2/channels", headers=headers, timeout=15)
-            if res_v2.status_code == 200:
-                channels = res_v2.json()
+            auth_url2 = "https://api.pluto.tv/v2/config"
+            res2 = requests.get(auth_url2, headers=headers, timeout=10)
+            if res2.status_code == 200:
+                token = res2.json().get('sessionToken', '')
         except Exception as e:
-            print(f"[ERROR] Gagal ambil channels v2: {e}")
+            print(f"Auth Method 2 Error: {e}")
+            
+    return token
 
-    return token, channels
+def get_channels():
+    """Mengambil daftar seluruh saluran Pluto TV"""
+    try:
+        res = requests.get("https://api.pluto.tv/v2/channels", headers=headers, timeout=15)
+        if res.status_code == 200:
+            return res.json()
+    except Exception as e:
+        print(f"Fetch Channels Error: {e}")
+    return []
 
 def build_m3u():
-    token, channels = get_pluto_session()
+    token = get_jwt_token()
+    channels = get_channels()
     
+    print(f"[INFO] Status JWT Token: {'TERISI (' + token[:20] + '...)' if token else 'KOSONG'}")
+
     m3u_lines = ["#EXTM3U"]
 
     for ch in channels:
@@ -61,7 +64,7 @@ def build_m3u():
 
         group = ch.get('category', 'Pluto TV')
 
-        # Link Stream M3U8 Lengkap DENGAN JWT Token yang valid dan tanpa spasi
+        # Link Stream M3U8 Lengkap Wajib Terisi JWT
         stream_link = (
             f"https://cfd-v4-service-channel-stitcher-use1-1.prd.pluto.tv/v2/stitch/hls/channel/{ch_id}/master.m3u8"
             f"?appName=web&appVersion=9.22.0&clientDeviceType=0&deviceMake=chrome&deviceModel=web"
@@ -77,7 +80,7 @@ def build_m3u():
     with open("playlist.txt", "w", encoding="utf-8") as f:
         f.write(playlist_content)
         
-    print(f"[SUCCESS] Berhasil membuat playlist.txt dengan JWT Token (Total: {len(channels)} saluran)!")
+    print(f"[SUCCESS] Berhasil membuat playlist.txt (Total: {len(channels)} saluran)!")
 
 if __name__ == "__main__":
     build_m3u()
