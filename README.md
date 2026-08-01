@@ -64,7 +64,7 @@ If the **pluto-playlist** project is helpful to you, consider supporting the dev
 <br>
 
 <a href="https://saweria.co/sulthanpamenan" target="_blank">
-  <img src="https://img.shields.io/badge/Saweria-Support_Project-orange?style=for-the-badge&logo=coffee" alt="Support via Saweria">
+  <img width="290" height="290" alt="Saweria" src="https://github.com/user-attachments/assets/aedc2d91-b91e-4717-98c3-934e7f77dbcd" />
 </a>
 
 ---
