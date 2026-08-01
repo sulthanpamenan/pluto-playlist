@@ -81,10 +81,15 @@ def build_m3u():
 
     playlist_content = "\n".join(m3u_lines)
     
+    # Simpan ke playlist.txt
     with open("playlist.txt", "w", encoding="utf-8") as f:
-        f.write(playlist_content)
+        f.write("\n".join(m3u_lines))
+
+    # Simpan JUGA ke playlist.m3u
+    with open("playlist.m3u", "w", encoding="utf-8") as f:
+        f.write("\n".join(m3u_lines))
         
-    print(f"[SUCCESS] Berhasil membuat playlist.txt dengan {len(channels)} saluran!")
+    print("[SUCCESS] Berhasil memperbarui playlist.txt dan playlist.m3u!")
 
 if __name__ == "__main__":
     build_m3u()
