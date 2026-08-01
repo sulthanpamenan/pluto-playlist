@@ -38,6 +38,10 @@ Use either of the following URLs in your preferred IPTV app (OTT Navigator, Tivi
    ```text
    [https://sulthanpamenan.github.io/pluto-playlist/playlist.txt](https://sulthanpamenan.github.io/pluto-playlist/playlist.txt)
 
+# 🎵 Pluto Playlist
+
+A lightweight and easy-to-use playlist manager for media streaming.
+
 ---
 
 ## ☕ Support the Developer
@@ -48,9 +52,12 @@ If the **pluto-playlist** project is helpful to you, consider supporting the dev
 
 ### 🇮🇩 Local Donation (QRIS / E-Wallet / Mobile Banking)
 
-<a href="https://saweria.co/sulthanpamenan">
-  <img src="qris.png" width="220" alt="Saweria QRIS">
+<!-- BILA MENGGUNAKAN UPLOAD GITHUB (CARA 1): Ganti URL gambar di bawah dengan URL dari GitHub -->
+<a href="https://saweria.co/sulthanpamenan" target="_blank">
+  <img src="img width="290" height="290" alt="Saweria QRIS" src="https://github.com/user-attachments/assets/1ad68b22-2de1-48b7-94e8-e1b2adc2789e">
 </a>
+
+<br>
 
 *Scan the QRIS code above using GoPay, DANA, OVO, ShopeePay, LinkAja, or Mobile Banking.*
 
