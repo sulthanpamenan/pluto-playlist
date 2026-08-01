@@ -54,7 +54,7 @@ If the **pluto-playlist** project is helpful to you, consider supporting the dev
 
 <!-- BILA MENGGUNAKAN UPLOAD GITHUB (CARA 1): Ganti URL gambar di bawah dengan URL dari GitHub -->
 <a href="https://saweria.co/sulthanpamenan" target="_blank">
-  <img src="img width="290" height="290" alt="Saweria QRIS" src="https://github.com/user-attachments/assets/1ad68b22-2de1-48b7-94e8-e1b2adc2789e">
+  <img width="290" height="290" alt="Saweria" src="https://github.com/user-attachments/assets/0da528e4-7d20-47b4-8983-b5147399b041" />
 </a>
 
 <br>
