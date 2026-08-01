@@ -1,6 +1,5 @@
 import requests
 import uuid
-import json
 
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
@@ -9,50 +8,46 @@ headers = {
     'Referer': 'https://pluto.tv/'
 }
 
-def get_jwt_token():
-    """Mengambil JWT Token otentikasi menggunakan UUID anonim resmi Pluto TV"""
-    token = ""
+def get_pluto_session():
+    """Mengambil session token resmi dari endpoint boot Pluto TV"""
     device_id = str(uuid.uuid4())
+    session_id = str(uuid.uuid4())
+    client_id = str(uuid.uuid4())
     
-    # Endpoint Auth resmi Pluto TV untuk membuat Session JWT Token baru
-    auth_url = f"https://boot.pluto.tv/v1/auth/local?appName=web&appVersion=9.22.0&deviceId={device_id}&deviceMake=chrome&deviceModel=web&deviceType=web"
+    boot_url = (
+        f"https://boot.pluto.tv/v4/start"
+        f"?appName=web&appVersion=9.22.0-ba99318afe50de3c8a02021f4c92fd52f2c47a00"
+        f"&clientDeviceType=0&clientID={client_id}&clientModelNumber=1.0.0"
+        f"&deviceId={device_id}&deviceMake=chrome&deviceModel=web&deviceType=web"
+        f"&deviceVersion=143.0.0&marketingRegion=US&serverSideAds=false&sessionID={session_id}"
+    )
+    
+    token = ""
+    channels = []
     
     try:
-        res = requests.get(auth_url, headers=headers, timeout=12)
-        if res.status_code == 200 or res.status_code == 201:
+        res = requests.get(boot_url, headers=headers, timeout=15)
+        if res.status_code == 200:
             data = res.json()
             token = data.get('sessionToken', '')
-            if token:
-                print(f"[SUCCESS] Token JWT berhasil didapat: {token[:25]}...")
+            channels = data.get('channels', [])
+            print(f"[INFO] Token berhasil diambil: {token[:20]}...")
     except Exception as e:
-        print(f"[ERROR] Gagal mendapatkan JWT Token: {e}")
+        print(f"[ERROR] Boot fetch error: {e}")
 
-    # Fallback Auth jika endpoint v1 tidak memberikan response
-    if not token:
+    # Fallback jika channels kosong
+    if not channels:
         try:
-            boot_url = "https://boot.pluto.tv/v4/start?appName=web&appVersion=9.22.0&clientDeviceType=0&deviceMake=chrome&deviceModel=web&deviceType=web"
-            res_boot = requests.get(boot_url, headers=headers, timeout=12)
-            if res_boot.status_code == 200:
-                token = res_boot.json().get('sessionToken', '')
+            res_v2 = requests.get("https://api.pluto.tv/v2/channels", headers=headers, timeout=15)
+            if res_v2.status_code == 200:
+                channels = res_v2.json()
         except Exception as e:
-            print(f"[ERROR] Fallback Auth Error: {e}")
-            
-    return token
+            print(f"[ERROR] Channels v2 fetch error: {e}")
 
-def get_channels():
-    """Mengambil daftar seluruh saluran Pluto TV"""
-    try:
-        res = requests.get("https://api.pluto.tv/v2/channels", headers=headers, timeout=15)
-        if res.status_code == 200:
-            return res.json()
-    except Exception as e:
-        print(f"[ERROR] Fetch Channels Error: {e}")
-    return []
+    return token, device_id, session_id, client_id, channels
 
 def build_m3u():
-    token = get_jwt_token()
-    channels = get_channels()
-    
+    token, device_id, session_id, client_id, channels = get_pluto_session()
     m3u_lines = ["#EXTM3U"]
 
     for ch in channels:
@@ -70,12 +65,15 @@ def build_m3u():
 
         group = ch.get('category', 'Pluto TV')
 
-        # Format URL Stitcher Lengkap dengan JWT Token
+        # Menyusun URL Stitcher persis sesuai struktur pemutar resmi Pluto TV
         stream_link = (
             f"https://cfd-v4-service-channel-stitcher-use1-1.prd.pluto.tv/v2/stitch/hls/channel/{ch_id}/master.m3u8"
-            f"?appName=web&appVersion=9.22.0&clientDeviceType=0&deviceMake=chrome&deviceModel=web"
-            f"&deviceType=web&deviceVersion=123.0.0&includeExtendedEvents=false&serverSideAds=false"
-            f"&jwt={token}&masterJWTPassthrough=true"
+            f"?advertisingId=&appName=web&appVersion=9.22.0-ba99318afe50de3c8a02021f4c92fd52f2c47a00"
+            f"&app_name=web&clientDeviceType=0&clientID={client_id}&clientModelNumber=1.0.0"
+            f"&country=US&deviceDNT=false&deviceId={device_id}&deviceLat=47.3000&deviceLon=-122.3700"
+            f"&deviceMake=chrome&deviceModel=web&deviceType=web&deviceVersion=143.0.0"
+            f"&marketingRegion=US&serverSideAds=false&sessionID={session_id}&sid={session_id}"
+            f"&userId=&jwt={token}&masterJWTPassthrough=true&includeExtendedEvents=true"
         )
 
         m3u_lines.append(f'#EXTINF:-1 tvg-id="{ch_id}" tvg-name="{name}" tvg-logo="{logo}" group-title="{group}",{name}')
@@ -86,7 +84,7 @@ def build_m3u():
     with open("playlist.txt", "w", encoding="utf-8") as f:
         f.write(playlist_content)
         
-    print(f"[SUCCESS] Berhasil memperbarui playlist.txt (Total: {len(channels)} saluran)!")
+    print(f"[SUCCESS] Berhasil membuat playlist.txt dengan {len(channels)} saluran!")
 
 if __name__ == "__main__":
     build_m3u()
