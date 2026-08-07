@@ -1,9 +1,5 @@
-# Konfigurasi Funding/Donasi GitHub untuk pluto-playlist
-
-# GitHub Sponsors (Username GitHub Anda)
 github: sulthanpamenan
 
-# Link Donasi Saweria & QR Widget Direct Link
 custom: [
   'https://saweria.co/widgets/qr?streamKey=cbedd743c554f623eac1630d80ccbcdc', 'https://buymeacoffee.com/sulthanpamenan'
 ]
