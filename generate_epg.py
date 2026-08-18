@@ -12,7 +12,6 @@ headers = {
 }
 
 def format_xmltv_date(dt_str):
-    """Mengubah format ISO date Pluto ke format standar XMLTV."""
     try:
         dt = datetime.fromisoformat(dt_str.replace('Z', '+00:00'))
         return dt.strftime("%Y%m%d%H%M%S +0000")
@@ -20,13 +19,13 @@ def format_xmltv_date(dt_str):
         return ""
 
 def generate_pluto_epg():
-    print("[*] Mengambil data jadwal EPG dari Pluto TV...")
+    print("[*] Mengambil data EPG Pluto TV...")
     
     device_id = str(uuid.uuid4())
     session_id = str(uuid.uuid4())
     client_id = str(uuid.uuid4())
     
-    # 1. Ambil session token & daftar channel utama
+    # 1. Ambil Session Token
     boot_url = (
         f"https://boot.pluto.tv/v4/start"
         f"?appName=web&appVersion=9.22.0&clientDeviceType=0&clientID={client_id}"
@@ -42,115 +41,87 @@ def generate_pluto_epg():
             data = res.json()
             token = data.get('sessionToken', '')
             channels = data.get('channels', [])
-            print(f"[✓] Berhasil mengidentifikasi {len(channels)} channel.")
     except Exception as e:
-        print(f"[!] Boot fetch error: {e}")
+        print(f"[!] Error boot: {e}")
 
-    # Fallback jika boot gagal
     if not channels:
         try:
             res_v2 = requests.get("https://api.pluto.tv/v2/channels", headers=headers, timeout=15)
             if res_v2.status_code == 200:
                 channels = res_v2.json()
         except Exception as e:
-            print(f"[!] Fallback channels error: {e}")
+            print(f"[!] Error channels: {e}")
 
-    # 2. Persiapkan parameter waktu untuk API Guide (Format ISO 8601 UTC)
+    # 2. Ambil Guide Timeline via V3 Grid
     now_utc = datetime.now(timezone.utc)
-    start_time = now_utc.strftime("%Y-%m-%dT%H:00:00.000Z")
-    stop_time = (now_utc + timedelta(hours=12)).strftime("%Y-%m-%dT%H:00:00.000Z")
+    start_iso = now_utc.strftime("%Y-%m-%dT%H:00:00.000Z")
+    stop_iso = (now_utc + timedelta(hours=8)).strftime("%Y-%m-%dT%H:00:00.000Z")
     
-    # 3. Request API Channels/Timelines resmi
-    guide_url = f"https://api.pluto.tv/v3/guide/timelines?start={start_time}&stop={stop_time}"
+    guide_url = f"https://api.pluto.tv/v3/guide/timelines?start={start_iso}&stop={stop_iso}"
     if token:
         guide_url += f"&jwt={token}"
-        
-    epg_channels_data = []
+
+    epg_data = []
     try:
-        g_res = requests.get(guide_url, headers=headers, timeout=25)
-        if g_res.status_code == 200:
-            epg_channels_data = g_res.json().get('channels', [])
-            print(f"[✓] Berhasil mengambil timeline EPG untuk {len(epg_channels_data)} channel.")
-        else:
-            print(f"[!] Guide API merespon status {g_res.status_code}, menggunakan fallback v2.")
+        res_g = requests.get(guide_url, headers=headers, timeout=20)
+        if res_g.status_code == 200:
+            epg_data = res_g.json().get('channels', [])
     except Exception as e:
-        print(f"[!] Guide fetch error: {e}")
+        print(f"[!] Error fetch guide: {e}")
 
-    # Map EPG channel ke dictionary berdasarkan ID
-    timeline_map = {ch.get('id'): ch.get('timelines', []) for ch in epg_channels_data}
+    timeline_map = {c.get('id'): c.get('timelines', []) for c in epg_data}
 
-    # 4. Susun struktur XMLTV
+    # 3. Susun XMLTV
     tv_elem = ET.Element("tv", {"generator-info-name": "PlutoTV EPG Generator"})
 
-    channel_count = 0
-    programme_count = 0
-
+    p_count = 0
     for ch in channels:
         ch_id = ch.get('id') or ch.get('_id')
         if not ch_id:
             continue
-        
-        # Tambahkan elemen <channel>
+
         ch_elem = ET.SubElement(tv_elem, "channel", id=ch_id)
-        disp_name = ET.SubElement(ch_elem, "display-name")
-        disp_name.text = ch.get('name', 'Pluto Channel')
-        
+        d_name = ET.SubElement(ch_elem, "display-name")
+        d_name.text = ch.get('name', 'Pluto Channel')
+
         logo = ch.get('logo', '')
         if isinstance(ch.get('colorLogoPNG'), dict):
             logo = ch.get('colorLogoPNG', {}).get('path', '')
         if logo:
             ET.SubElement(ch_elem, "icon", src=logo)
 
-        channel_count += 1
-
-        # Dapatkan daftar acara untuk channel ini
-        timelines = timeline_map.get(ch_id, [])
-        if not timelines and 'timelines' in ch:
-            timelines = ch.get('timelines', [])
-
-        # Tambahkan elemen <programme>
-        for item in timelines:
-            title_text = item.get('title', '')
-            if not title_text:
+        timelines = timeline_map.get(ch_id, []) or ch.get('timelines', [])
+        for t in timelines:
+            title = t.get('title', '')
+            if not title:
                 continue
 
-            # Menangani berbagai lokasi deskripsi dari JSON Pluto
-            desc_text = ""
-            if isinstance(item.get('episode'), dict):
-                desc_text = item.get('episode', {}).get('description', '')
-            elif isinstance(item.get('description'), str):
-                desc_text = item.get('description')
-            
-            if not desc_text:
-                desc_text = f"Siaran {title_text} di Pluto TV"
+            desc = t.get('episode', {}).get('description', '') if isinstance(t.get('episode'), dict) else t.get('description', '')
+            if not desc:
+                desc = f"Program {title}"
 
-            start_iso = item.get('start', '')
-            stop_iso = item.get('stop', '')
-            
-            start_xml = format_xmltv_date(start_iso)
-            stop_xml = format_xmltv_date(stop_iso)
-            
+            start_xml = format_xmltv_date(t.get('start', ''))
+            stop_xml = format_xmltv_date(t.get('stop', ''))
+
             if start_xml and stop_xml:
-                prog_elem = ET.SubElement(tv_elem, "programme", {
+                p_elem = ET.SubElement(tv_elem, "programme", {
                     "start": start_xml,
                     "stop": stop_xml,
                     "channel": ch_id
                 })
-                t_elem = ET.SubElement(prog_elem, "title", lang="en")
-                t_elem.text = title_text
-                d_elem = ET.SubElement(prog_elem, "desc", lang="en")
-                d_elem.text = desc_text
-                programme_count += 1
+                t_elem = ET.SubElement(p_elem, "title", lang="en")
+                t_elem.text = title
+                d_elem = ET.SubElement(p_elem, "desc", lang="en")
+                d_elem.text = desc
+                p_count += 1
 
-    # 5. Simpan Hasil ke File epg.xml
-    rough_string = ET.tostring(tv_elem, 'utf-8')
-    reparsed = minidom.parseString(rough_string)
-    pretty_xml = reparsed.toprettyxml(indent="  ")
-
+    rough_str = ET.tostring(tv_elem, 'utf-8')
+    reparsed = minidom.parseString(rough_str)
+    
     with open("epg.xml", "w", encoding="utf-8") as f:
-        f.write(pretty_xml)
+        f.write(reparsed.toprettyxml(indent="  "))
 
-    print(f"[SUCCESS] File `epg.xml` berhasil diperbarui! ({channel_count} channel, {programme_count} acara dimasukkan).")
+    print(f"[SUCCESS] epg.xml terisi ({len(channels)} channel, {p_count} acara).")
 
 if __name__ == "__main__":
     generate_pluto_epg()
