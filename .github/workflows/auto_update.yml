@@ -1,4 +1,4 @@
-name: Update Pluto Playlist
+name: Update Pluto Playlist & EPG
 
 on:
   schedule:
@@ -13,10 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4   # Diperbarui dari v3 ke v4
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v5 # Diperbarui dari v4 ke v5
+        uses: actions/setup-python@v5
         with:
           python-version: '3.x'
 
@@ -26,9 +26,12 @@ jobs:
       - name: Generate Playlist
         run: python generate.py
 
+      - name: Generate EPG
+        run: python generate_epg.py
+
       - name: Commit and Push Updates
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add -A
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto update playlist.txt" && git push)
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto update playlist & EPG [skip ci]" && git push)
