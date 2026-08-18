@@ -23,15 +23,18 @@ jobs:
       - name: Install Dependencies
         run: pip install requests
 
-      - name: Generate Playlist
+      - name: Generate Live TV Playlist
         run: python generate.py
 
-      - name: Generate EPG
+      - name: Generate EPG XML
         run: python generate_epg.py
+
+      - name: Generate Separate VOD Playlist
+        run: python generate_vod.py
 
       - name: Commit and Push Updates
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add -A
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto update playlist & EPG [skip ci]" && git push)
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto update Live TV, EPG, & VOD [skip ci]" && git push)
