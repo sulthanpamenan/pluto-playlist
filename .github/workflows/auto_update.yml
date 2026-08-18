@@ -29,13 +29,10 @@ jobs:
       - name: Generate EPG XML
         run: python generate_epg.py
 
-      - name: Generate Separate VOD Playlist
-        run: python generate_vod.py
-
       - name: Commit and Push Updates
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add -A
-          git commit -m "Auto update Live TV, EPG, & VOD [skip ci]" || echo "Tidak ada perubahan"
+          git add epg.xml playlist.m3u playlist.txt
+          git commit -m "Auto update Live TV & EPG [skip ci]" || echo "Tidak ada perubahan"
           git push origin main
