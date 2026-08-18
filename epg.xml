@@ -184,6 +184,10 @@
     <display-name>QVC</display-name>
     <icon src="https://images.pluto.tv/channels/5bdcdf1e851dd5632e2c11d1/colorLogoPNG.png"/>
   </channel>
+  <channel id="5bdce04659ee03633e758130">
+    <display-name>WeatherNation</display-name>
+    <icon src="https://images.pluto.tv/channels/5bdce04659ee03633e758130/colorLogoPNG.png"/>
+  </channel>
   <channel id="5bee1a7359ee03633e780238">
     <display-name>Dog the Bounty Hunter</display-name>
     <icon src="https://images.pluto.tv/channels/5bee1a7359ee03633e780238/colorLogoPNG_1767736765611.png"/>
@@ -912,10 +916,6 @@
     <display-name>The Judge Judy Channel</display-name>
     <icon src="https://images.pluto.tv/channels/6283d51144ad8f0007fa382d/colorLogoPNG.png"/>
   </channel>
-  <channel id="628c274a02000400070a3ae4">
-    <display-name>WeatherNation Raleigh-Durham</display-name>
-    <icon src="https://images.pluto.tv/channels/628c274a02000400070a3ae4/colorLogoPNG.png"/>
-  </channel>
   <channel id="628e685ba3811100070551a8">
     <display-name>Hallmark Movies &amp; More</display-name>
     <icon src="https://images.pluto.tv/channels/628e685ba3811100070551a8/colorLogoPNG_1767639054863.png"/>
@@ -928,9 +928,9 @@
     <display-name>00s Replay</display-name>
     <icon src="https://images.pluto.tv/channels/62ba60f059624e000781c436/colorLogoPNG.png"/>
   </channel>
-  <channel id="62cdca1cda044a00077b903d">
-    <display-name>CBS News Philadelphia</display-name>
-    <icon src="https://images.pluto.tv/channels/62cdca1cda044a00077b903d/colorLogoPNG.png"/>
+  <channel id="62cdc9902466010007383d1a">
+    <display-name>CBS News Minnesota</display-name>
+    <icon src="https://images.pluto.tv/channels/62cdc9902466010007383d1a/colorLogoPNG.png"/>
   </channel>
   <channel id="62cdcd05b9e7a10007399603">
     <display-name>CBS News Sacramento</display-name>
@@ -955,18 +955,6 @@
   <channel id="632b606e12a67b0007c9e371">
     <display-name>CSI: NY en español</display-name>
     <icon src="https://images.pluto.tv/channels/632b606e12a67b0007c9e371/colorLogoPNG_1731837281479.png"/>
-  </channel>
-  <channel id="632b6233822bbc000748fd81">
-    <display-name>WFTV Orlando</display-name>
-    <icon src="https://images.pluto.tv/channels/632b6233822bbc000748fd81/colorLogoPNG.png"/>
-  </channel>
-  <channel id="632b642933a6280007aaf265">
-    <display-name>WSB Atlanta</display-name>
-    <icon src="https://images.pluto.tv/channels/632b642933a6280007aaf265/colorLogoPNG.png"/>
-  </channel>
-  <channel id="632b648c08cd050007d94114">
-    <display-name>WSOC Charlotte</display-name>
-    <icon src="https://images.pluto.tv/channels/632b648c08cd050007d94114/colorLogoPNG.png"/>
   </channel>
   <channel id="633354b63df9700007f6a1b7">
     <display-name>Sitcom Legends</display-name>
@@ -1239,10 +1227,6 @@
   <channel id="65775d29dfed030008cb3db2">
     <display-name>Modern Marvels by HISTORY</display-name>
     <icon src="https://images.pluto.tv/channels/65775d29dfed030008cb3db2/colorLogoPNG.png"/>
-  </channel>
-  <channel id="65791199dfed030008d031d3">
-    <display-name>Telemundo Noticias Noreste</display-name>
-    <icon src="https://images.pluto.tv/channels/65791199dfed030008d031d3/colorLogoPNG.png"/>
   </channel>
   <channel id="65a6dafb7bdc8d0008473c85">
     <display-name>The Lone Ranger</display-name>
