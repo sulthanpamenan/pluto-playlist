@@ -37,7 +37,6 @@ def get_pluto_session():
     except Exception as e:
         print(f"[ERROR] Boot fetch error: {e}")
 
-    # Fallback jika channels kosong
     if not channels:
         try:
             res_v2 = requests.get("https://api.pluto.tv/v2/channels", headers=headers, timeout=15)
@@ -96,11 +95,9 @@ def build_m3u():
         m3u_lines.append(f'#EXTINF:-1 tvg-id="{ch_id}" tvg-name="{name}" tvg-logo="{logo}" group-title="{group}",{name}')
         m3u_lines.append(stream_link)
 
-    # Simpan ke playlist.txt
     with open("playlist.txt", "w", encoding="utf-8") as f:
         f.write("\n".join(m3u_lines))
 
-    # Simpan JUGA ke playlist.m3u
     with open("playlist.m3u", "w", encoding="utf-8") as f:
         f.write("\n".join(m3u_lines))
         
