@@ -26,7 +26,6 @@ def generate_pluto_epg():
     print("[*] Memulai pemrosesan EPG...")
     channels = []
     
-    # Coba tarik dari API resmi dengan Proxy
     try:
         res = requests.get("https://api.pluto.tv/v2/channels", headers=headers, proxies=PROXIES, timeout=15)
         if res.status_code == 200:
@@ -35,7 +34,6 @@ def generate_pluto_epg():
     except Exception as e:
         print(f"[!] API Direct/Proxy error: {e}")
 
-    # Jika API diblokir oleh GitHub runner, gunakan mirror resmi secara otomatis
     if not channels:
         print("[*] Mengunduh EPG dari mirror publik...")
         try:
@@ -49,7 +47,6 @@ def generate_pluto_epg():
             print(f"[!] Mirror error: {e}")
             return
 
-    # Susun XMLTV jika API berhasil
     tv_elem = ET.Element("tv", {"generator-info-name": "PlutoTV EPG Generator"})
     p_count = 0
 
