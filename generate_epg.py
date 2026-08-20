@@ -23,28 +23,28 @@ def format_xmltv_date(dt_str):
         return ""
 
 def generate_pluto_epg():
-    print("[*] Memulai pemrosesan EPG...")
+    print("[*] Starting EPG generation process...")
     channels = []
     
     try:
         res = requests.get("https://api.pluto.tv/v2/channels", headers=headers, proxies=PROXIES, timeout=15)
         if res.status_code == 200:
             channels = res.json()
-            print(f"[✓] Berhasil menarik {len(channels)} channel via API.")
+            print(f"[✓] Successfully fetched {len(channels)} channels via API.")
     except Exception as e:
         print(f"[!] API Direct/Proxy error: {e}")
 
     if not channels:
-        print("[*] Mengunduh EPG dari mirror publik...")
+        print("[*] Downloading EPG from public mirror fallback...")
         try:
             res_mirror = requests.get(MIRROR_EPG_URL, timeout=30)
             if res_mirror.status_code == 200:
                 with open("epg.xml", "w", encoding="utf-8") as f:
                     f.write(res_mirror.text)
-                print("[SUCCESS] epg.xml berhasil diperbarui via mirror!")
+                print("[SUCCESS] File `epg.xml` successfully updated via public mirror!")
                 return
         except Exception as e:
-            print(f"[!] Mirror error: {e}")
+            print(f"[!] Mirror fetch error: {e}")
             return
 
     tv_elem = ET.Element("tv", {"generator-info-name": "PlutoTV EPG Generator"})
@@ -71,7 +71,7 @@ def generate_pluto_epg():
             if not title_text:
                 continue
 
-            desc_text = item.get('episode', {}).get('description', '') if isinstance(item.get('episode'), dict) else item.get('description', f"Siaran {title_text}")
+            desc_text = item.get('episode', {}).get('description', '') if isinstance(item.get('episode'), dict) else item.get('description', f"Broadcast of {title_text}")
             start_xml = format_xmltv_date(item.get('start', ''))
             stop_xml = format_xmltv_date(item.get('stop', ''))
 
@@ -92,7 +92,7 @@ def generate_pluto_epg():
     
     with open("epg.xml", "w", encoding="utf-8") as f:
         f.write(reparsed.toprettyxml(indent="  "))
-    print(f"[SUCCESS] epg.xml berhasil dibuat ({p_count} acara).")
+    print(f"[SUCCESS] File `epg.xml` generated successfully with {p_count} programs.")
 
 if __name__ == "__main__":
     generate_pluto_epg()
