@@ -34,5 +34,5 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add epg.xml playlist.m3u playlist.txt
-          git commit -m "Auto update Live TV & EPG [skip ci]" || echo "Tidak ada perubahan"
+          git commit -m "Auto update Live TV & EPG [skip ci]" || echo "No changes to commit"
           git push origin main
