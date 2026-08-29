@@ -1,6 +1,5 @@
-import re
 import xml.etree.ElementTree as ET
-from datetime import datetime, timezone
+from datetime import datetime
 import requests
 
 HEADERS = {
@@ -8,19 +7,19 @@ HEADERS = {
     'Accept': 'application/json'
 }
 
-PROXIES = {
-    'http': 'http://154.21.137.234:3128',
-    'https': 'http://154.21.137.234:3128'
-}
-
 MIRROR_EPG_URL = "https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/PlutoTV/us.xml"
 
 def clean_xml_text(val):
-    """Remove invalid Unicode control characters to prevent XML corruption"""
+    """Filter out control characters forbidden in XML 1.0 (Compatible with Python 3.14+)"""
     if not val:
         return ""
     val_str = str(val)
-    return re.sub(r'[^\x09\x0A\x0D\x20-\uD7FF\uE000-\uFFFD\U0010000-\U0010FFFF]', '', val_str).strip()
+    return "".join(ch for ch in val_str if (
+        ch in ("\t", "\n", "\r") or
+        (0x20 <= ord(ch) <= 0xD7FF) or
+        (0xE000 <= ord(ch) <= 0xFFFD) or
+        (0x10000 <= ord(ch) <= 0x10FFFF)
+    )).strip()
 
 def format_xmltv_date(dt_str):
     try:
@@ -33,27 +32,16 @@ def generate_pluto_epg():
     print("[*] Starting Pluto TV EPG generation process...")
     channels = []
     
-    # 1. Try the Main API Request
+    # 1. Direct Pluto TV API request
     try:
-        res = requests.get("https://api.pluto.tv/v2/channels", headers=HEADERS, proxies=PROXIES, timeout=12)
+        res = requests.get("https://api.pluto.tv/v2/channels", headers=HEADERS, timeout=15)
         if res.status_code == 200:
             channels = res.json()
             print(f"[✓] Successfully fetched {len(channels)} channels via API.")
     except Exception as e:
-        print(f"[!] API Direct/Proxy error: {e}")
+        print(f"[!] Direct API fetch error: {e}")
 
-    # 2. Direct request without proxy if the proxy fails
-    if not channels and PROXIES:
-        print("[*] Retrying API request without proxy...")
-        try:
-            res_direct = requests.get("https://api.pluto.tv/v2/channels", headers=HEADERS, timeout=12)
-            if res_direct.status_code == 200:
-                channels = res_direct.json()
-                print(f"[✓] Successfully fetched {len(channels)} channels via direct connection.")
-        except Exception as e:
-            print(f"[!] Direct API fetch error: {e}")
-
-    # 3. Fallback mirror if the API fails completely
+    # 2. Fallback mirror if the API fails
     if not channels:
         print("[*] Downloading EPG from public mirror fallback...")
         try:
@@ -68,7 +56,7 @@ def generate_pluto_epg():
             print(f"[!] Mirror fetch error: {e}")
             return
 
-    # 4. Building the XMLTV Structure
+    # 3. Building the XMLTV Structure
     tv_elem = ET.Element("tv", {"generator-info-name": "PlutoTV EPG Generator"})
     p_count = 0
 
