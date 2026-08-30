@@ -184,6 +184,10 @@
     <display-name>QVC</display-name>
     <icon src="https://images.pluto.tv/channels/5bdcdf1e851dd5632e2c11d1/colorLogoPNG.png" />
   </channel>
+  <channel id="5bdce04659ee03633e758130">
+    <display-name>WeatherNation</display-name>
+    <icon src="https://images.pluto.tv/channels/5bdce04659ee03633e758130/colorLogoPNG.png" />
+  </channel>
   <channel id="5bee1a7359ee03633e780238">
     <display-name>Dog the Bounty Hunter</display-name>
     <icon src="https://images.pluto.tv/channels/5bee1a7359ee03633e780238/colorLogoPNG_1767736765611.png" />
@@ -876,10 +880,6 @@
     <display-name>Vevo True School Hip-Hop</display-name>
     <icon src="https://images.pluto.tv/channels/61d4c2817a823d00070ba53e/colorLogoPNG.png" />
   </channel>
-  <channel id="61ea261c8874280007b4865f">
-    <display-name>WeatherNation San Francisco</display-name>
-    <icon src="https://images.pluto.tv/channels/61ea261c8874280007b4865f/colorLogoPNG.png" />
-  </channel>
   <channel id="61f07513227feb00073ee6bc">
     <display-name>Heartland</display-name>
     <icon src="https://images.pluto.tv/channels/61f07513227feb00073ee6bc/colorLogoPNG.png" />
@@ -928,9 +928,9 @@
     <display-name>00s Replay</display-name>
     <icon src="https://images.pluto.tv/channels/62ba60f059624e000781c436/colorLogoPNG.png" />
   </channel>
-  <channel id="62cdc6c5a698740007d299b1">
-    <display-name>CBS News Bay Area</display-name>
-    <icon src="https://images.pluto.tv/channels/62cdc6c5a698740007d299b1/colorLogoPNG.png" />
+  <channel id="62cdc9902466010007383d1a">
+    <display-name>CBS News Minnesota</display-name>
+    <icon src="https://images.pluto.tv/channels/62cdc9902466010007383d1a/colorLogoPNG.png" />
   </channel>
   <channel id="62cdca1cda044a00077b903d">
     <display-name>CBS News Philadelphia</display-name>
@@ -955,10 +955,6 @@
   <channel id="632b606e12a67b0007c9e371">
     <display-name>CSI: NY en español</display-name>
     <icon src="https://images.pluto.tv/channels/632b606e12a67b0007c9e371/colorLogoPNG_1731837281479.png" />
-  </channel>
-  <channel id="632b619c8d2a6c0007ff534e">
-    <display-name>KIRO Seattle</display-name>
-    <icon src="https://images.pluto.tv/channels/632b619c8d2a6c0007ff534e/colorLogoPNG.png" />
   </channel>
   <channel id="633354b63df9700007f6a1b7">
     <display-name>Sitcom Legends</display-name>
@@ -1232,14 +1228,6 @@
     <display-name>Modern Marvels by HISTORY</display-name>
     <icon src="https://images.pluto.tv/channels/65775d29dfed030008cb3db2/colorLogoPNG.png" />
   </channel>
-  <channel id="65790d58dfed030008d03051">
-    <display-name>NBC Bay Area News</display-name>
-    <icon src="https://images.pluto.tv/channels/65790d58dfed030008d03051/colorLogoPNG.png" />
-  </channel>
-  <channel id="65790feacbd0d60008fac87a">
-    <display-name>Telemundo Noticias California</display-name>
-    <icon src="https://images.pluto.tv/channels/65790feacbd0d60008fac87a/colorLogoPNG.png" />
-  </channel>
   <channel id="65a6dafb7bdc8d0008473c85">
     <display-name>The Lone Ranger</display-name>
     <icon src="https://images.pluto.tv/channels/65a6dafb7bdc8d0008473c85/colorLogoPNG.png" />
@@ -1311,10 +1299,6 @@
   <channel id="6675c88da1d7ad00084762cb">
     <display-name>Star Trek: The Motion Pictures</display-name>
     <icon src="https://images.pluto.tv/channels/6675c88da1d7ad00084762cb/colorLogoPNG.png" />
-  </channel>
-  <channel id="667f2b5cca746800086fa029">
-    <display-name>FOX LOCAL San Francisco</display-name>
-    <icon src="https://images.pluto.tv/channels/667f2b5cca746800086fa029/colorLogoPNG_1766533912605.png" />
   </channel>
   <channel id="667f3852efa2a10008e1e514">
     <display-name>Go Go Gadget!</display-name>
