@@ -184,6 +184,10 @@
     <display-name>QVC</display-name>
     <icon src="https://images.pluto.tv/channels/5bdcdf1e851dd5632e2c11d1/colorLogoPNG.png" />
   </channel>
+  <channel id="5bdce04659ee03633e758130">
+    <display-name>WeatherNation</display-name>
+    <icon src="https://images.pluto.tv/channels/5bdce04659ee03633e758130/colorLogoPNG.png" />
+  </channel>
   <channel id="5bee1a7359ee03633e780238">
     <display-name>Dog the Bounty Hunter</display-name>
     <icon src="https://images.pluto.tv/channels/5bee1a7359ee03633e780238/colorLogoPNG_1767736765611.png" />
@@ -800,10 +804,6 @@
     <display-name>Kartoon Channel!</display-name>
     <icon src="https://images.pluto.tv/channels/60fb040d4795a6000762fe8f/colorLogoPNG.png" />
   </channel>
-  <channel id="60fb053712f22a0007ff14d2">
-    <display-name>Transformers TV</display-name>
-    <icon src="https://images.pluto.tv/channels/60fb053712f22a0007ff14d2/colorLogoPNG.png" />
-  </channel>
   <channel id="60fb299b79498900070b29e0">
     <display-name>CBS News Miami</display-name>
     <icon src="https://images.pluto.tv/channels/60fb299b79498900070b29e0/colorLogoPNG.png" />
@@ -912,10 +912,6 @@
     <display-name>The Judge Judy Channel</display-name>
     <icon src="https://images.pluto.tv/channels/6283d51144ad8f0007fa382d/colorLogoPNG.png" />
   </channel>
-  <channel id="628bedd5b45e1c00070572da">
-    <display-name>WeatherNation Phoenix</display-name>
-    <icon src="https://images.pluto.tv/channels/628bedd5b45e1c00070572da/colorLogoPNG.png" />
-  </channel>
   <channel id="628e685ba3811100070551a8">
     <display-name>Hallmark Movies &amp; More</display-name>
     <icon src="https://images.pluto.tv/channels/628e685ba3811100070551a8/colorLogoPNG_1767639054863.png" />
@@ -928,13 +924,9 @@
     <display-name>00s Replay</display-name>
     <icon src="https://images.pluto.tv/channels/62ba60f059624e000781c436/colorLogoPNG.png" />
   </channel>
-  <channel id="62cdc8709e20de00073045a5">
-    <display-name>CBS News Colorado</display-name>
-    <icon src="https://images.pluto.tv/channels/62cdc8709e20de00073045a5/colorLogoPNG.png" />
-  </channel>
-  <channel id="62cdca1cda044a00077b903d">
-    <display-name>CBS News Philadelphia</display-name>
-    <icon src="https://images.pluto.tv/channels/62cdca1cda044a00077b903d/colorLogoPNG.png" />
+  <channel id="62cdc75b1a1cbd0007ed45dc">
+    <display-name>CBS News Chicago</display-name>
+    <icon src="https://images.pluto.tv/channels/62cdc75b1a1cbd0007ed45dc/colorLogoPNG.png" />
   </channel>
   <channel id="62f54c11b3af68000702c304">
     <display-name>CSI: Miami</display-name>
@@ -1303,10 +1295,6 @@
   <channel id="6675c88da1d7ad00084762cb">
     <display-name>Star Trek: The Motion Pictures</display-name>
     <icon src="https://images.pluto.tv/channels/6675c88da1d7ad00084762cb/colorLogoPNG.png" />
-  </channel>
-  <channel id="667f3696fc3a4600087cd1d6">
-    <display-name>FOX LOCAL Phoenix</display-name>
-    <icon src="https://images.pluto.tv/channels/667f3696fc3a4600087cd1d6/colorLogoPNG_1766533869654.png" />
   </channel>
   <channel id="667f3852efa2a10008e1e514">
     <display-name>Go Go Gadget!</display-name>
