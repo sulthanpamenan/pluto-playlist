@@ -1,7 +1,8 @@
-name: Update Pluto Playlist & EPG
+name: Update Pluto Playlist
 
 on:
   schedule:
+    # Berjalan setiap 3 jam sekali
     - cron: '0 */3 * * *'
   workflow_dispatch:
 
@@ -26,13 +27,10 @@ jobs:
       - name: Generate Live TV Playlist
         run: python generate.py
 
-      - name: Generate EPG XML
-        run: python generate_epg.py
-
-      - name: Commit and Push Updates
+      - name: Commit and Push Playlist Updates
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add epg.xml playlist.m3u playlist.txt
-          git commit -m "Auto update Live TV & EPG [skip ci]" || echo "No changes to commit"
+          git add playlist.m3u playlist.txt
+          git commit -m "Auto update Live TV Playlist [skip ci]" || echo "No changes to commit"
           git push origin main
