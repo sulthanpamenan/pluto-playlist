@@ -88,6 +88,10 @@
     <display-name>Live Music</display-name>
     <icon src="https://images.pluto.tv/channels/5873fc21cad696fb37aa9054/colorLogoPNG.png" />
   </channel>
+  <channel id="5877ac8cb791f4eb4a140d81">
+    <display-name>Pluto TV Food</display-name>
+    <icon src="https://images.pluto.tv/channels/5877ac8cb791f4eb4a140d81/colorLogoPNG.png" />
+  </channel>
   <channel id="58af4c093a41ca9d4ecabe96">
     <display-name>BET Cinema</display-name>
     <icon src="https://images.pluto.tv/channels/58af4c093a41ca9d4ecabe96/colorLogoPNG_1759338280891.png" />
@@ -628,6 +632,10 @@
     <display-name>CMT Equal Play</display-name>
     <icon src="https://images.pluto.tv/channels/5f68f53eb1e5800007390bf8/colorLogoPNG.png" />
   </channel>
+  <channel id="5f7274806621ff00072651ff">
+    <display-name>Narcos</display-name>
+    <icon src="https://images.pluto.tv/channels/5f7274806621ff00072651ff/colorLogoPNG.png" />
+  </channel>
   <channel id="5f7790b3ed0c88000720b241">
     <display-name>One Piece</display-name>
     <icon src="https://images.pluto.tv/channels/5f7790b3ed0c88000720b241/colorLogoPNG_1731837233662.png" />
@@ -872,6 +880,10 @@
     <display-name>Vevo True School Hip-Hop</display-name>
     <icon src="https://images.pluto.tv/channels/61d4c2817a823d00070ba53e/colorLogoPNG.png" />
   </channel>
+  <channel id="61ea261c8874280007b4865f">
+    <display-name>WeatherNation San Francisco</display-name>
+    <icon src="https://images.pluto.tv/channels/61ea261c8874280007b4865f/colorLogoPNG.png" />
+  </channel>
   <channel id="61f07513227feb00073ee6bc">
     <display-name>Heartland</display-name>
     <icon src="https://images.pluto.tv/channels/61f07513227feb00073ee6bc/colorLogoPNG.png" />
@@ -908,10 +920,6 @@
     <display-name>The Judge Judy Channel</display-name>
     <icon src="https://images.pluto.tv/channels/6283d51144ad8f0007fa382d/colorLogoPNG.png" />
   </channel>
-  <channel id="628c274a02000400070a3ae4">
-    <display-name>WeatherNation Raleigh-Durham</display-name>
-    <icon src="https://images.pluto.tv/channels/628c274a02000400070a3ae4/colorLogoPNG.png" />
-  </channel>
   <channel id="628e685ba3811100070551a8">
     <display-name>Hallmark Movies &amp; More</display-name>
     <icon src="https://images.pluto.tv/channels/628e685ba3811100070551a8/colorLogoPNG_1767639054863.png" />
@@ -924,13 +932,13 @@
     <display-name>00s Replay</display-name>
     <icon src="https://images.pluto.tv/channels/62ba60f059624e000781c436/colorLogoPNG.png" />
   </channel>
+  <channel id="62cdc6c5a698740007d299b1">
+    <display-name>CBS News Bay Area</display-name>
+    <icon src="https://images.pluto.tv/channels/62cdc6c5a698740007d299b1/colorLogoPNG.png" />
+  </channel>
   <channel id="62cdc75b1a1cbd0007ed45dc">
     <display-name>CBS News Chicago</display-name>
     <icon src="https://images.pluto.tv/channels/62cdc75b1a1cbd0007ed45dc/colorLogoPNG.png" />
-  </channel>
-  <channel id="62cdca1cda044a00077b903d">
-    <display-name>CBS News Philadelphia</display-name>
-    <icon src="https://images.pluto.tv/channels/62cdca1cda044a00077b903d/colorLogoPNG.png" />
   </channel>
   <channel id="62f54c11b3af68000702c304">
     <display-name>CSI: Miami</display-name>
@@ -952,17 +960,9 @@
     <display-name>CSI: NY en español</display-name>
     <icon src="https://images.pluto.tv/channels/632b606e12a67b0007c9e371/colorLogoPNG_1731837281479.png" />
   </channel>
-  <channel id="632b6233822bbc000748fd81">
-    <display-name>WFTV Orlando</display-name>
-    <icon src="https://images.pluto.tv/channels/632b6233822bbc000748fd81/colorLogoPNG.png" />
-  </channel>
-  <channel id="632b642933a6280007aaf265">
-    <display-name>WSB Atlanta</display-name>
-    <icon src="https://images.pluto.tv/channels/632b642933a6280007aaf265/colorLogoPNG.png" />
-  </channel>
-  <channel id="632b648c08cd050007d94114">
-    <display-name>WSOC Charlotte</display-name>
-    <icon src="https://images.pluto.tv/channels/632b648c08cd050007d94114/colorLogoPNG.png" />
+  <channel id="632b619c8d2a6c0007ff534e">
+    <display-name>KIRO Seattle</display-name>
+    <icon src="https://images.pluto.tv/channels/632b619c8d2a6c0007ff534e/colorLogoPNG.png" />
   </channel>
   <channel id="633354b63df9700007f6a1b7">
     <display-name>Sitcom Legends</display-name>
@@ -1236,9 +1236,13 @@
     <display-name>Modern Marvels by HISTORY</display-name>
     <icon src="https://images.pluto.tv/channels/65775d29dfed030008cb3db2/colorLogoPNG.png" />
   </channel>
-  <channel id="65791199dfed030008d031d3">
-    <display-name>Telemundo Noticias Noreste</display-name>
-    <icon src="https://images.pluto.tv/channels/65791199dfed030008d031d3/colorLogoPNG.png" />
+  <channel id="65790d58dfed030008d03051">
+    <display-name>NBC Bay Area News</display-name>
+    <icon src="https://images.pluto.tv/channels/65790d58dfed030008d03051/colorLogoPNG.png" />
+  </channel>
+  <channel id="65790feacbd0d60008fac87a">
+    <display-name>Telemundo Noticias California</display-name>
+    <icon src="https://images.pluto.tv/channels/65790feacbd0d60008fac87a/colorLogoPNG.png" />
   </channel>
   <channel id="65a6dafb7bdc8d0008473c85">
     <display-name>The Lone Ranger</display-name>
@@ -1311,6 +1315,10 @@
   <channel id="6675c88da1d7ad00084762cb">
     <display-name>Star Trek: The Motion Pictures</display-name>
     <icon src="https://images.pluto.tv/channels/6675c88da1d7ad00084762cb/colorLogoPNG.png" />
+  </channel>
+  <channel id="667f2b5cca746800086fa029">
+    <display-name>FOX LOCAL San Francisco</display-name>
+    <icon src="https://images.pluto.tv/channels/667f2b5cca746800086fa029/colorLogoPNG_1766533912605.png" />
   </channel>
   <channel id="667f3852efa2a10008e1e514">
     <display-name>Go Go Gadget!</display-name>
@@ -1423,6 +1431,10 @@
   <channel id="67817323dd7846fe546940dd">
     <display-name>QVC2</display-name>
     <icon src="https://images.pluto.tv/channels/67817323dd7846fe546940dd/colorLogoPNG.png" />
+  </channel>
+  <channel id="6785b98d688edb0008cb99be">
+    <display-name>Pluto TV ROCKY + Creed</display-name>
+    <icon src="https://images.pluto.tv/channels/6785b98d688edb0008cb99be/colorLogoPNG.png" />
   </channel>
   <channel id="67882c1c7b11714b795c2008">
     <display-name>Sketchy AF</display-name>
@@ -1719,5 +1731,9 @@
   <channel id="6a5ff6d9c868f8fd984e005c">
     <display-name>Ghosts</display-name>
     <icon src="https://images.pluto.tv/channels/6a5ff6d9c868f8fd984e005c/colorLogoPNG_1785791941652.png" />
+  </channel>
+  <channel id="6a7b7c50307dc8b67b372008">
+    <display-name>La novia de Estambul</display-name>
+    <icon src="https://images.pluto.tv/channels/6a7b7c50307dc8b67b372008/colorLogoPNG_1786477846466.png" />
   </channel>
 </tv>
