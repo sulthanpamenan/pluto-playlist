@@ -24,7 +24,7 @@ jobs:
         run: pip install requests
 
       - name: Generate Live TV Playlist
-        run: python generate.py
+        run: python generate_playlist.py
 
       - name: Commit and Push Playlist Updates
         run: |
