@@ -1,5 +1,5 @@
 import xml.etree.ElementTree as ET
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 import requests
 
 HEADERS = {
@@ -10,7 +10,6 @@ HEADERS = {
 MIRROR_EPG_URL = "https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/PlutoTV/us.xml"
 
 def clean_xml_text(val):
-    """Filter out control characters forbidden in XML 1.0 (Compatible with Python 3.14+)"""
     if not val:
         return ""
     val_str = str(val)
@@ -28,11 +27,26 @@ def format_xmltv_date(dt_str):
     except Exception:
         return ""
 
+def fetch_pluto_timelines():
+    """Fetch 24-hour EPG timelines from Pluto TV v3 API"""
+    now = datetime.now(timezone.utc)
+    start_time = now.strftime("%Y-%m-%dT%H:00:00.000Z")
+    stop_time = (now + timedelta(hours=24)).strftime("%Y-%m-%dT%H:00:00.000Z")
+    
+    url = f"https://api.pluto.tv/v3/trending/timelines?start={start_time}&stop={stop_time}"
+    try:
+        res = requests.get(url, headers=HEADERS, timeout=20)
+        if res.status_code == 200:
+            return res.json().get('data', [])
+    except Exception as e:
+        print(f"[!] Error fetching v3 timelines: {e}")
+    return []
+
 def generate_pluto_epg():
     print("[*] Starting Pluto TV EPG generation process...")
     channels = []
     
-    # 1. Direct Pluto TV API request
+    # 1. Direct Pluto TV API channel request
     try:
         res = requests.get("https://api.pluto.tv/v2/channels", headers=HEADERS, timeout=15)
         if res.status_code == 200:
@@ -41,7 +55,7 @@ def generate_pluto_epg():
     except Exception as e:
         print(f"[!] Direct API fetch error: {e}")
 
-    # 2. Fallback mirror if the API fails
+    # 2. Fallback mirror if channels API completely fails
     if not channels:
         print("[*] Downloading EPG from public mirror fallback...")
         try:
@@ -56,7 +70,18 @@ def generate_pluto_epg():
             print(f"[!] Mirror fetch error: {e}")
             return
 
-    # 3. Building the XMLTV Structure
+    # 3. Fetch Timelines data
+    print("[*] Fetching Pluto TV EPG Timelines...")
+    timelines_data = fetch_pluto_timelines()
+    
+    # Mapping timelines based on channel ID
+    timelines_map = {}
+    for t_item in timelines_data:
+        c_id = t_item.get('channelId') or t_item.get('id')
+        if c_id:
+            timelines_map[str(c_id)] = t_item.get('timelines', [])
+
+    # 4. Building the XMLTV Structure
     tv_elem = ET.Element("tv", {"generator-info-name": "PlutoTV EPG Generator"})
     p_count = 0
 
@@ -75,7 +100,9 @@ def generate_pluto_epg():
         if logo:
             ET.SubElement(ch_elem, "icon", src=clean_xml_text(logo))
 
-        timelines = ch.get('timelines', [])
+        # Get timelines from map or channel object fallback
+        timelines = timelines_map.get(ch_id, ch.get('timelines', []))
+
         for item in timelines:
             title_text = clean_xml_text(item.get('title', ''))
             if not title_text:
@@ -96,6 +123,21 @@ def generate_pluto_epg():
                 ET.SubElement(prog_elem, "title", lang="en").text = title_text
                 ET.SubElement(prog_elem, "desc", lang="en").text = desc_text
                 p_count += 1
+
+    # 5. Fallback to public mirror if no programme elements were parsed
+    if p_count == 0:
+        print("[!] No programs parsed. Falling back to public mirror EPG...")
+        try:
+            res_mirror = requests.get(MIRROR_EPG_URL, timeout=30)
+            if res_mirror.status_code == 200:
+                with open("epg.xml", "wb") as f:
+                    f.write(res_mirror.content)
+                    f.flush()
+                print("[SUCCESS] File `epg.xml` updated via public mirror fallback!")
+                return
+        except Exception as e:
+            print(f"[!] Mirror fetch error: {e}")
+            return
 
     try:
         ET.indent(tv_elem, space="  ")
