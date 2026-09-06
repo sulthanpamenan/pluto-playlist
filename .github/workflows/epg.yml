@@ -2,7 +2,7 @@ name: Generate EPG XMLTV
 
 on:
   schedule:
-    - cron: '30 17,5 * * *'
+    - cron: '30 13,1 * * *'
   workflow_dispatch:
 
 permissions:
