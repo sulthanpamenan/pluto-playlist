@@ -1,4 +1,4 @@
-name: Update Pluto Playlist
+name: Generate Playlist
 
 on:
   schedule:
