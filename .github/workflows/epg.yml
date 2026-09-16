@@ -1,4 +1,4 @@
-name: Generate EPG
+name: EPG XMLTV
 
 on:
   schedule:
