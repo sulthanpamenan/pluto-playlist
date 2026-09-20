@@ -2,12 +2,11 @@ import json
 import xml.etree.ElementTree as ET
 from datetime import datetime
 import requests
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 
 HEADERS = {
-    "User-Agent": (
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-        "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
-    ),
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
     "Accept": "application/json",
     "Content-Type": "application/json",
     "Origin": "https://pluto.tv",
@@ -16,9 +15,16 @@ HEADERS = {
     "x-apollo-operation-name": "ChannelsMany",
 }
 
-MIRROR_EPG_URL = (
-    "https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/PlutoTV/us.xml"
-)
+MIRROR_EPG_URL = "https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/PlutoTV/us.xml"
+
+def create_robust_session():
+    session = requests.Session()
+    retries = Retry(total=3, backoff_factor=1.0, status_forcelist=[500, 502, 503, 504], raise_on_status=False)
+    adapter = HTTPAdapter(max_retries=retries, pool_connections=20, pool_maxsize=20)
+    session.mount("https://", adapter)
+    session.mount("http://", adapter)
+    session.headers.update(HEADERS)
+    return session
 
 
 def clean_xml_text(val):
@@ -38,6 +44,8 @@ def clean_xml_text(val):
 
 
 def format_xmltv_date(dt_str):
+    if not dt_str or not isinstance(dt_str, str):
+        return ""
     try:
         dt = datetime.fromisoformat(dt_str.replace("Z", "+00:00"))
         return dt.strftime("%Y%m%d%H%M%S +0000")
@@ -46,17 +54,14 @@ def format_xmltv_date(dt_str):
 
 
 def fetch_graphql_channels():
-    """Fetch all channels and listings via Pluto TV GraphQL with pagination"""
+    """Fetch all channels and listings via Pluto TV GraphQL with pagination and safe validation"""
     url = "https://pluto.tv/api/tn/video/graphql/"
     all_channels = []
     start = 0
     rows = 100
+    session = create_robust_session()
 
-    extensions_dict = {
-        "tnPersistedDocumentHash": (
-            "a8c66dc403e590458bf86eff582a5541a7e1986d75ca7543ae2d6fd1e60b2b3a"
-        )
-    }
+    extensions_dict = {"tnPersistedDocumentHash": "a8c66dc403e590458bf86eff582a5541a7e1986d75ca7543ae2d6fd1e60b2b3a"}
 
     while True:
         variables_dict = {
@@ -86,30 +91,46 @@ def fetch_graphql_channels():
         }
 
         try:
-            res = requests.get(url, params=params, headers=HEADERS, timeout=15)
+            res = session.get(url, params=params, timeout=20)
             if res.status_code == 200:
-                data = res.json()
-                channels = data.get("data", {}).get("channelsMany", [])
-                if not channels:
+                try:
+                    data = res.json()
+                except json.JSONDecodeError as jde:
+                    print(f"[!] JSON Decode Error at start={start}: {jde}")
                     break
+
+                if not isinstance(data, dict):
+                    print(f"[!] Invalid JSON response format at start={start}")
+                    break
+
+                channels = data.get("data", {}).get("channelsMany")
+                if not channels or not isinstance(channels, list):
+                    break
+
                 all_channels.extend(channels)
+                
                 if len(channels) < rows:
                     break
                 start += rows
             else:
+                print(f"[!] Failed to fetch GraphQL channels, status code: {res.status_code}")
                 break
+        except requests.RequestException as req_err:
+            print(f"[!] Network error fetching GraphQL channels at start={start}: {req_err}")
+            break
         except Exception as e:
-            print(f"[!] Error fetching GraphQL channels at start={start}: {e}")
+            print(f"[!] Unexpected error at start={start}: {e}")
             break
 
     return all_channels
 
 
 def download_mirror_epg():
-    """Fallback handler to download EPG directly from public mirror"""
+    """Fallback handler to download EPG directly from public mirror using robust session"""
     print("[*] Downloading EPG from public mirror fallback...")
+    session = create_robust_session()
     try:
-        res_mirror = requests.get(MIRROR_EPG_URL, timeout=30)
+        res_mirror = session.get(MIRROR_EPG_URL, timeout=30)
         if res_mirror.status_code == 200:
             with open("epg.xml", "wb") as f:
                 f.write(res_mirror.content)
@@ -131,8 +152,11 @@ def generate_pluto_epg():
     tv_elem = ET.Element("tv", {"generator-info-name": "PlutoTV EPG Generator"})
     p_count = 0
 
-    if channels:
+    if channels and isinstance(channels, list):
         for ch in channels:
+            if not isinstance(ch, dict):
+                continue
+
             ch_id = str(ch.get("id") or ch.get("_id") or "").strip()
             if not ch_id:
                 continue
@@ -152,7 +176,13 @@ def generate_pluto_epg():
                 ET.SubElement(ch_elem, "icon", src=clean_xml_text(logo))
 
             listings = ch.get("listings", [])
+            if not isinstance(listings, list):
+                continue
+
             for item in listings:
+                if not isinstance(item, dict):
+                    continue
+
                 title_text = clean_xml_text(item.get("title", ""))
                 if not title_text:
                     continue
@@ -173,7 +203,7 @@ def generate_pluto_epg():
                     ET.SubElement(prog_elem, "desc", lang="en").text = desc_text
                     p_count += 1
 
-    # 3. If GraphQL failed or returned 0 programs due to silent geoblock, fallback to public mirror
+    # 3. If GraphQL failed or returned 0 programs, fallback to public mirror
     if p_count == 0:
         print("[!] No programs parsed from official API. Triggering fallback...")
         download_mirror_epg()
