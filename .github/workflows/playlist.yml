@@ -1,8 +1,8 @@
 name: Generate Playlist
 
 on:
-  schedule:
-    - cron: '0 */3 * * *'
+  repository_dispatch:
+    types: [run-playlist]
   workflow_dispatch:
 
 permissions:
