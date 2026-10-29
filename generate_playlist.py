@@ -84,11 +84,11 @@ def build_m3u():
 
         stream_link = (
             f"https://cfd-v4-service-channel-stitcher-use1-1.prd.pluto.tv/v2/stitch/hls/channel/{ch_id}/master.m3u8"
-            f"?advertisingId=&appName=web&appVersion=9.22.0-ba99318afe50de3c8a02021f4c92fd52f2c47a00"
-            f"&app_name=web&clientDeviceType=0&clientID={client_id}&clientModelNumber=1.0.0"
+            f"?advertisingId=&appName=androidtv&appVersion=9.22.0-ba99318afe50de3c8a02021f4c92fd52f2c47a00"
+            f"&app_name=androidtv&clientDeviceType=1&clientID={client_id}&clientModelNumber=1.0.0"
             f"&country=US&deviceDNT=false&deviceId={device_id}&deviceLat=47.3000&deviceLon=-122.3700"
-            f"&deviceMake=chrome&deviceModel=web&deviceType=web&deviceVersion=143.0.0"
-            f"&marketingRegion=US&serverSideAds=false&sessionID={session_id}&sid={session_id}"
+            f"&deviceMake=googletv&deviceModel=smarttv&deviceType=androidtv&deviceVersion=143.0.0"
+            f"&marketingRegion=US&serverSideAds=true&sessionID={session_id}&sid={session_id}"
             f"&userId=&jwt={token}&masterJWTPassthrough=true&includeExtendedEvents=true"
         )
 
