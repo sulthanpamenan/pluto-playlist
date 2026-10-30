@@ -2,7 +2,7 @@ import requests
 import uuid
 
 headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36',
+    'User-Agent': 'PlutoTV/9.22.0 (AndroidTV; SmartTV)',
     'Accept': 'application/json',
     'Origin': 'https://pluto.tv',
     'Referer': 'https://pluto.tv/'
@@ -18,10 +18,10 @@ def get_pluto_session():
     
     boot_url = (
         f"https://boot.pluto.tv/v4/start"
-        f"?appName=web&appVersion=9.22.0-ba99318afe50de3c8a02021f4c92fd52f2c47a00"
-        f"&clientDeviceType=0&clientID={client_id}&clientModelNumber=1.0.0"
-        f"&deviceId={device_id}&deviceMake=chrome&deviceModel=web&deviceType=web"
-        f"&deviceVersion=143.0.0&marketingRegion=US&serverSideAds=false&sessionID={session_id}"
+        f"?appName=androidtv&appVersion=9.22.0-ba99318afe50de3c8a02021f4c92fd52f2c47a00"
+        f"&clientDeviceType=1&clientID={client_id}&clientModelNumber=1.0.0"
+        f"&deviceId={device_id}&deviceMake=googletv&deviceModel=smarttv&deviceType=androidtv"
+        f"&deviceVersion=143.0.0&marketingRegion=US&serverSideAds=true&sessionID={session_id}"
     )
     
     token = ""
